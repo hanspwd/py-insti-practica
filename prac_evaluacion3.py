@@ -33,7 +33,7 @@ def registrar_puntaje(lst_aventureros: dict, codigo: str, puntaje: int) -> bool:
 def modificar_puntaje(lst_aventureros: dict, codigo: str, sesion: int, nuevo_puntaje: int) -> bool:
             
             if codigo not in lst_aventureros:
-                print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo!")
+                print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo.")
                 return False
             
             puntajes = lst_aventureros[codigo]["puntajes"]
