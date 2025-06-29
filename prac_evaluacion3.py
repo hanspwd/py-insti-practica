@@ -2,35 +2,47 @@ aventureros = {}
 
 def registrar_aventurero(lst_aventureros: dict, codigo: str, datos: list) -> bool:
     if codigo in lst_aventureros:
-        print(f"ERROR: El codigo {codigo} ya existe, intentelo nuevamente.")
+        print(f"[ERROR] El codigo {codigo} ya existe, intentelo nuevamente.")
         return False
+    if datos[1] < 0:
+        print("[ERROR] Edad ingresada no valida, tiene que ser mayor a 0.")
+        return False
+    
     lst_aventureros[codigo] = {
         "nombre": datos[0],
         "edad": datos[1],
         "puntajes": []
     } 
     
+    print("* El aventurero ha sido registrado exitosamente!")
     return True
     
-def registrar_puntaje(lst_aventureros: dict, codigo: str, puntaje: int) -> bool:  
+def registrar_puntaje(lst_aventureros: dict, codigo: str, puntaje: int) -> bool:
+
+        if codigo not in lst_aventureros:
+            print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo.")
+            return False
+        if puntaje < 0:
+            print("[ERROR] El puntaje no puede ser negativo, vuelva a intentarlo.")
+            return False
+
         lst_aventureros[codigo]["puntajes"].append(puntaje)
+        print("* Puntaje agregado con exito")
         return True
 
 def modificar_puntaje(lst_aventureros: dict, codigo: str, sesion: int, nuevo_puntaje: int) -> bool:
             
-            
             if codigo not in lst_aventureros:
-                print("El codigo ingresado no existe.")
+                print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo!")
                 return False
             
             puntajes = lst_aventureros[codigo]["puntajes"]
-
             
-            if sesion < 0 and sesion not in lst_aventureros[codigo]["puntajes"]:
-                print("No hay puntajes los cuales modificar o un valor se ingreso incorrectamente. Por favor Vuelva a intentarlo.")
+            if sesion < 0:
+                print("[ERROR] El numero de sesion no puede ser negativo, vuelva a intentarlo.")
                 return False
             if nuevo_puntaje < 0:
-                print("Solo se puede ingresar puntaje mayor o igual a 0, vuelva a intentarlo.")
+                print("[ERROR] Solo se puede ingresar puntaje mayor o igual a cero, no negativos, vuelva a intentarlo.")
                 return False
 
             try:
@@ -38,15 +50,15 @@ def modificar_puntaje(lst_aventureros: dict, codigo: str, sesion: int, nuevo_pun
                 puntajes[sesion - 1] = nuevo_puntaje
             
             except IndexError:
-                print("ERROR: No se puede modificar la sesion ya que no existe.")
+                print("[ERROR] No se puede modificar la sesion ya que no existe.")
                 return False
             
-            print("Puntaje modificado.")
+            print("* Puntaje modificado con exito")
             return True
 
 def mostrar_participacion(lst_aventureros: dict):
     if not lst_aventureros:
-        print("Asegurese de que haya al menos un aventurero registrado para listar.")
+        print("[ERROR] Asegurese de que haya al menos un aventurero registrado para listar.")
         return False
     for codigo, datos in lst_aventureros.items():   
         puntaje = datos["puntajes"]
@@ -62,8 +74,9 @@ def participantes_con_bajo_promedio(lst_aventureros: dict, umbral: float):
 
 def listar_aventureros(lst_aventureros: dict):
     if not lst_aventureros:
-        print("Asegurese de que haya al menos un aventurero registrado para listar.")
+        print("[ERROR] Asegurese de que haya al menos un aventurero registrado para listar.")
         return False
+    
     for codigo, datos in lst_aventureros.items():
         print("----------------------------------------")
         print(f"Codigo: {codigo}\nNombre: {datos["nombre"]}\nEdad: {datos["edad"]}\nPuntajes: {datos["puntajes"]}")
@@ -74,7 +87,7 @@ def listar_aventureros(lst_aventureros: dict):
 def obtener_aventureros_por_edad(lst_aventureros: dict, edad: int):
     for codigo, datos in lst_aventureros.items():
         if edad != datos["edad"]:
-            print("Edad especifica no encontrada.")
+            print("[ERROR] La edad ingresada no es valida o no existe en nuestros registros")
             continue
         else:
             print(f"Codigo: {codigo}\nNombre: {datos["nombre"]}\nEdad: {datos["edad"]}\nPuntajes: {datos["puntajes"]}")
@@ -120,6 +133,6 @@ while activo:
             obtener_aventureros_por_edad(aventureros, edad)
         elif opcion == 0:
             activo = False
-            print("Programa cerrado con exito.")
+            print("* Programa cerrado con exito.")
     except ValueError:
-        print("ERROR: Asegurese de que el valor escrito sea el indicado, ya sea palabra o numero.")
+        print("[ERROR] Asegurese de que el valor escrito sea el indicado, ya sea palabra o numero.")
