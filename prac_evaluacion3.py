@@ -18,7 +18,6 @@ def registrar_aventurero(lst_aventureros: dict, codigo: str, datos: list) -> boo
     return True
     
 def registrar_puntaje(lst_aventureros: dict, codigo: str, puntaje: int) -> bool:
-
         if codigo not in lst_aventureros:
             print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo.")
             return False
@@ -31,7 +30,6 @@ def registrar_puntaje(lst_aventureros: dict, codigo: str, puntaje: int) -> bool:
         return True
 
 def modificar_puntaje(lst_aventureros: dict, codigo: str, sesion: int, nuevo_puntaje: int) -> bool:
-            
             if codigo not in lst_aventureros:
                 print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo.")
                 return False
@@ -63,14 +61,27 @@ def mostrar_participacion(lst_aventureros: dict):
     for codigo, datos in lst_aventureros.items():   
         puntaje = datos["puntajes"]
         total = sum(puntaje)
-        promedio = total / len(puntaje) if puntaje else 0
+        promedio = total / len(puntaje)
         print("----------------------------------------")
-        print(f"Codigo: {codigo}\nNombre: {datos["nombre"]}\nTotal: {total}\nPromedio: {promedio}")
+        print(f"Codigo: {codigo}\nNombre: {datos["nombre"]}\nPuntaje Total: {total}\nPromedio: {promedio}")
     print("----------------------------------------")
     return True
 
 def participantes_con_bajo_promedio(lst_aventureros: dict, umbral: float):
-    return 0
+
+    if not lst_aventureros:
+        print("[ERROR] No hay aventureros para listar por umbral.")
+
+    for codigo, datos in lst_aventureros.items ():
+        puntaje = datos["puntajes"]
+        promedio = sum(puntaje) / len(puntaje)
+        if promedio < umbral:
+            print("----------------------------------------")
+            print(f"Codigo: {codigo}\nNombre: {datos["nombre"]}\nPromedio: {promedio}")
+        else:
+            continue
+    print("----------------------------------------")
+    return True
 
 def listar_aventureros(lst_aventureros: dict):
     if not lst_aventureros:
@@ -124,7 +135,7 @@ while activo:
         elif opcion == 4:
             mostrar_participacion(aventureros)
         elif opcion == 5:
-            umbral = float(input("Ingrese el umbral de promedio"))
+            umbral = float(input("Ingrese el umbral de promedio: "))
             participantes_con_bajo_promedio(aventureros, umbral)
         elif opcion == 6:
             listar_aventureros(aventureros)
