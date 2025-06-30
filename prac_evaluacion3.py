@@ -212,5 +212,7 @@ while activo:
         elif opcion == 0:
             activo = False
             print("* Programa cerrado con exito.")
+    except KeyboardInterrupt:
+        print("\n[ERROR] Por favor cierre el programa con la opcion indicada.")
     except ValueError:
         print("[ERROR] Asegurese de que el valor escrito sea el indicado, ya sea palabra o numero.")
