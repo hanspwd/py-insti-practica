@@ -137,7 +137,7 @@ def obtener_aventureros_por_edad(lst_aventureros: dict, edad: int):
             print(f"Puntajes: {datos['puntajes']}")
 
         if edad != datos["edad"]:
-            print("[ERROR] La edad ingresada no es valida o no existe en nuestros registros")
+            print("[ERROR] La edad ingresada no es valida o no existe en nuestros registros.")
             continue
         
     print(f"------------------------------------------")
