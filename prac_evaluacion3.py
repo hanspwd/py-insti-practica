@@ -101,9 +101,9 @@ def participantes_con_bajo_promedio(lst_aventureros: dict, umbral: float):
 
         if promedio <= umbral:
             print(f"------------------------------------------")
-            print(f"Código: {codigo}")
-            print(f"Nombre: {datos['nombre']}")
-            print(f"Edad: {datos['edad']}")
+            print(f"Codigo: {codigo}")
+            print(f"Nombre: {datos["nombre"]}")
+            print(f"Edad: {datos["edad"]}")
             print(f"Promedio: {promedio:.2f}")
 
     if advertencias:
@@ -121,7 +121,10 @@ def listar_aventureros(lst_aventureros: dict):
     
     for codigo, datos in lst_aventureros.items():
         print(f"------------------------------------------")
-        print(f"Codigo: {codigo}\nNombre: {datos["nombre"]}\nEdad: {datos["edad"]}\nPuntajes: {datos["puntajes"]}")
+        print(f"Codigo: {codigo}")
+        print(f"Nombre: {datos["nombre"]}")
+        print(f"Edad: {datos["edad"]}")
+        print(f"Puntajes: {datos["puntajes"]}")
 
     print(f"------------------------------------------")
     return True
@@ -195,20 +198,20 @@ while activo:
             edad = int(input("- Filtrar por edad: "))
             obtener_aventureros_por_edad(aventureros, edad)
         elif opcion == 8:
-            confirmacionBool = False
+            aprobado = False
             codigo = input("- Código del aventurero a eliminar: ").lower()
             while True:
                 confirmacion = input("- ¿Confirma esta operación? Escriba 'si' o 'no': ").lower()
                 if confirmacion == "si":
-                    confirmacionBool = True
+                    aprobado = True
                     break
                 elif confirmacion == "no":
-                    confirmacionBool = False
+                    aprobado = False
                     break
                 else:
                     print("[ERROR] Valor inválido. Por favor, escriba exactamente 'si' o 'no'.")
                     
-            eliminar_aventurero(aventureros, codigo, confirmacionBool)
+            eliminar_aventurero(aventureros, codigo, aprobado)
         elif opcion == 0:
             activo = False
             print("* Programa cerrado con exito.")
