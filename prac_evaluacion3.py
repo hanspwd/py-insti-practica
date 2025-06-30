@@ -144,16 +144,15 @@ def obtener_aventureros_por_edad(lst_aventureros: dict, edad: int):
     return True
         
 def eliminar_aventurero(lst_aventureros: dict, codigo: str, confirmacion: bool):
-        if codigo not in lst_aventureros:
-            print("[ERROR] El codigo ingresado no existe, vuelva a intentarlo.")
-            return False
         
-        if confirmacion:
+        if codigo not in lst_aventureros and confirmacion:
+            print("[ERROR] Se a cancelado la eliminacion del aventurero debido a que el codigo no existe, vuelva a intentarlo.")
+            return False
+        elif confirmacion:
             lst_aventureros.pop(codigo)
-            print("* Aventurero eliminado con exito!")
+            print("* Aventurero eliminado con exito.")
         else:
-            print("* Se ha decidido cancelar la eliminacion del aventurero.")
-            
+            print("* Se a cancelado la eliminacion del aventurero.")
         return True
 
 activo = True
@@ -195,7 +194,8 @@ while activo:
         elif opcion == 7:
             edad = int(input("- Filtrar por edad: "))
             obtener_aventureros_por_edad(aventureros, edad)
-        elif opcion == "8":
+        elif opcion == 8:
+            confirmacionBool = False
             codigo = input("- Código del aventurero a eliminar: ").lower()
             while True:
                 confirmacion = input("- ¿Confirma esta operación? Escriba 'si' o 'no': ").lower()
@@ -207,8 +207,8 @@ while activo:
                     break
                 else:
                     print("[ERROR] Valor inválido. Por favor, escriba exactamente 'si' o 'no'.")
-
-                    eliminar_aventurero(aventureros, codigo, confirmacionBool)
+                    
+            eliminar_aventurero(aventureros, codigo, confirmacionBool)
         elif opcion == 0:
             activo = False
             print("* Programa cerrado con exito.")
