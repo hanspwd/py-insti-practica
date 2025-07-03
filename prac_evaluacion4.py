@@ -10,12 +10,12 @@ def registrar_estudiante(lst_estudiantes: dict, rut: str, nombre: str) -> bool:
         "nombre": nombre,
         "sesiones": []
     }
-
+    print(f"* Nuevo estudiante agregado con exito")
     return True
 
 def registrar_participacion(lst_estudiantes: dict, rut: str, puntaje: int) -> bool:
     if rut not in lst_estudiantes:
-        print("[ERROR] El RUT del usuario ingresado no es valido, vuelva a intentarlo.")
+        print("[ERROR] El RUT del usuario ingresado no existe, vuelva a intentarlo.")
         return False
     if puntaje <= 0:
         print("No se puede agregar puntaje negativo o igual a cero, vuelva a intentarlo.")
@@ -27,7 +27,7 @@ def registrar_participacion(lst_estudiantes: dict, rut: str, puntaje: int) -> bo
     
 def actualizar_participacion(lst_estudiantes: dict, rut: str, sesion: int, nuevo_puntaje: int) -> bool:
     if rut not in lst_estudiantes:
-        print("[ERROR] El RUT del usuario ingresado no es valido, vuelva a intentarlo.")
+        print("[ERROR] El RUT del usuario ingresado no existe, vuelva a intentarlo.")
         return False
 
     sesiones = lst_estudiantes[rut]["sesiones"]
@@ -44,6 +44,30 @@ def actualizar_participacion(lst_estudiantes: dict, rut: str, sesion: int, nuevo
     print(f"* El puntaje de la sesion {sesion} de {lst_estudiantes[rut]["nombre"]} ha sido modificado con exito.")
     return True
 
+def calcular_total_y_promedio(lst_estudiantes: dict, rut: str) -> tuple[int, float]:
+    if rut not in lst_estudiantes:
+        print("[ERROR] El RUT del usuario ingresado no existe, vuelva a intentarlo.")
+        return False
+
+    sesiones = lst_estudiantes[rut]["sesiones"]
+
+    if not sesiones:
+        print("[ERROR] No hay sesiones existentes registradas en este estudiante, vuelva a intentarlo luego de haberle agregado al menos una sesion.")
+        return False
+
+    total: int = sum(sesiones)
+    promedio: float = total / len(sesiones)
+
+    return (total, promedio)
+
+def mostrar_estudiantes(lst_estudiantes: dict) -> None:
+#Muestra para cada estudiante su RUT, nombre, total acumulado y promedio de puntos
+    return True
+
+def participacion_baja(lst_estudiantes: dict, umbral: float) -> None:
+#Muestra estudiantes con promedio de puntaje por debajo del umbral entregado.
+    return True
+
 activo = True
 while activo:
     try:
@@ -51,6 +75,7 @@ while activo:
         print("2.- Registrar puntaje por sesion")
         print("3.- Modificar puntaje de estudiante por sesion")
         print("4.- Ver total acumulado y el promedio de puntajes por estudiante")
+        # LOS DE ABAJO AUN NO HAN SIDO IMPLEMENTADOS
         print("5.- Mostrar estudiantes con baja participacion")
         print("6.- Listar todos estudiantes con sus datos y puntajes")
         print("7.- Eliminar estudiante")
@@ -58,10 +83,26 @@ while activo:
         opcion = int(input("- Seleccione una opcion del 0 al 7: "))
 
         if opcion == 1:
-            rut = input("- Rut: ").lower()
-            nombre = input("- Nombre: ")
+            rut = input("+ Rut: ").lower()
+            nombre = input("+ Nombre: ")
             registrar_estudiante(estudiantes, rut, nombre)
-            
+        
+        elif opcion == 2:
+            rut = input("+ Rut: ").lower()
+            puntaje = int(input("+ Puntaje: "))
+            registrar_participacion(estudiantes, rut, puntaje)
+        elif opcion == 3:
+            rut = input("+ Rut: ").lower()
+            sesion = int(input("+ Sesion a cambiar: "))
+            nuevo_puntaje = int(input("+ Nuevo puntaje: "))
+            actualizar_participacion(estudiantes, rut, sesion, nuevo_puntaje)
+        elif opcion == 4:
+            rut = input("+ Rut: ").lower()
+            resultado = calcular_total_y_promedio(estudiantes, rut)
+
+            if resultado:
+                total, promedio = resultado
+                print(f"Total: {total}, Promedio: {promedio:.2f}")
 
         elif opcion == 0:
             activo = False
