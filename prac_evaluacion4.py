@@ -49,16 +49,16 @@ def calcular_total_y_promedio(lst_estudiantes: dict, rut: str) -> tuple[int, flo
         print("[ERROR] El RUT del usuario ingresado no existe, vuelva a intentarlo.")
         return 0, 0.0
 
-    sesiones = lst_estudiantes[rut]["sesiones"]
-
-    if not sesiones:
+    if not lst_estudiantes[rut]["sesiones"]:
         print("[ERROR] No hay sesiones existentes registradas en este estudiante, vuelva a intentarlo luego de haberle agregado al menos una sesion.")
         return 0, 0.0
-
+    
+    sesiones = lst_estudiantes[rut]["sesiones"]
     total: int = sum(sesiones)
     promedio: float = total / len(sesiones)
+    
+    return total, promedio
 
-    return (total, promedio)
 
 def mostrar_estudiantes(lst_estudiantes: dict) -> None:
     
@@ -123,11 +123,17 @@ while activo:
             actualizar_participacion(estudiantes, rut, sesion, nuevo_puntaje)
         elif opcion == 4:
             rut = input("+ Rut: ").lower()
+            
             resultado = calcular_total_y_promedio(estudiantes, rut)
-
             if resultado:
                 total, promedio = resultado
-                print(f"Total: {total}, Promedio: {promedio:.2f}")
+
+            if total and promedio:
+                print("-------------------------------------------")
+                print(f"Nombre: {estudiantes[rut]["nombre"]}")
+                print(f"Total: {total}")
+                print(f"Promedio: {promedio:.2f}")
+                print("-------------------------------------------")
 
         elif opcion == 5:
             mostrar_estudiantes(estudiantes)
