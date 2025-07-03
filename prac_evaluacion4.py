@@ -47,13 +47,13 @@ def actualizar_participacion(lst_estudiantes: dict, rut: str, sesion: int, nuevo
 def calcular_total_y_promedio(lst_estudiantes: dict, rut: str) -> tuple[int, float]:
     if rut not in lst_estudiantes:
         print("[ERROR] El RUT del usuario ingresado no existe, vuelva a intentarlo.")
-        return False
+        return 0, 0.0
 
     sesiones = lst_estudiantes[rut]["sesiones"]
 
     if not sesiones:
         print("[ERROR] No hay sesiones existentes registradas en este estudiante, vuelva a intentarlo luego de haberle agregado al menos una sesion.")
-        return False
+        return 0, 0.0
 
     total: int = sum(sesiones)
     promedio: float = total / len(sesiones)
@@ -61,23 +61,37 @@ def calcular_total_y_promedio(lst_estudiantes: dict, rut: str) -> tuple[int, flo
     return (total, promedio)
 
 def mostrar_estudiantes(lst_estudiantes: dict) -> None:
-    for rutEstudiante, datos in lst_estudiantes.items():
+    
+    aviso = ""
+    
+    for estudiante, datos in lst_estudiantes.items():
 
         sesiones = datos["sesiones"]
+
+        if not sesiones:
+            aviso += f"[Aviso] Estudiante {estudiante} no tiene puntajes aún, por lo tanto no tiene promedio ni total.\n".strip()
+            continue
+
         total = sum(sesiones)
         promedio = total / len(sesiones)
 
         print("-------------------------------------------")
-        print("Rut:", rutEstudiante)
+        print("Rut:", estudiante)
         print("Nombre:", datos["nombre"])
         print("Total puntos:", total)
         print("Promedio:", promedio)
+
+        if aviso:
+            print("-------------------------------------------")
+            print(aviso)
+
     print("-------------------------------------------")
+    return None
 #Muestra para cada estudiante su RUT, nombre, total acumulado y promedio de puntos
 
 def participacion_baja(lst_estudiantes: dict, umbral: float) -> None:
 #Muestra estudiantes con promedio de puntaje por debajo del umbral entregado.
-    return True
+    return None
 
 activo = True
 while activo:
