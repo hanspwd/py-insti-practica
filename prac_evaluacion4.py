@@ -61,8 +61,19 @@ def calcular_total_y_promedio(lst_estudiantes: dict, rut: str) -> tuple[int, flo
     return (total, promedio)
 
 def mostrar_estudiantes(lst_estudiantes: dict) -> None:
+    for rutEstudiante, datos in lst_estudiantes.items():
+
+        sesiones = datos["sesiones"]
+        total = sum(sesiones)
+        promedio = total / len(sesiones)
+
+        print("-------------------------------------------")
+        print("Rut:", rutEstudiante)
+        print("Nombre:", datos["nombre"])
+        print("Total puntos:", total)
+        print("Promedio:", promedio)
+    print("-------------------------------------------")
 #Muestra para cada estudiante su RUT, nombre, total acumulado y promedio de puntos
-    return True
 
 def participacion_baja(lst_estudiantes: dict, umbral: float) -> None:
 #Muestra estudiantes con promedio de puntaje por debajo del umbral entregado.
@@ -104,6 +115,8 @@ while activo:
                 total, promedio = resultado
                 print(f"Total: {total}, Promedio: {promedio:.2f}")
 
+        elif opcion == 5:
+            mostrar_estudiantes(estudiantes)
         elif opcion == 0:
             activo = False
             print("* Programa cerrado con exito.")
