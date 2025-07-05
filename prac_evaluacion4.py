@@ -40,6 +40,7 @@ def actualizar_participacion(lst_estudiantes: dict, rut: str, sesion: int, nuevo
         sesiones[sesion - 1] = nuevo_puntaje
     except IndexError:
         print("[ERROR] La sesion ingresada no existe, vuelva a intentarlo.")
+        return False
 
     print(f"* El puntaje de la sesion {sesion} de {lst_estudiantes[rut]["nombre"]} ha sido modificado con exito.")
     return True
@@ -124,11 +125,9 @@ while activo:
         elif opcion == 4:
             rut = input("+ Rut: ").lower()
             
-            resultado = calcular_total_y_promedio(estudiantes, rut)
-            if resultado:
-                total, promedio = resultado
-
-            if total and promedio:
+            total, promedio = calcular_total_y_promedio(estudiantes, rut)
+            
+            if total > 0 or promedio > 0:
                 print("-------------------------------------------")
                 print(f"Nombre: {estudiantes[rut]["nombre"]}")
                 print(f"Total: {total}")
